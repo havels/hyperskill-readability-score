@@ -1,5 +1,6 @@
 package readability;
 
+import readability.score.*;
 import java.util.Scanner;
 
 public class Main {
@@ -8,10 +9,11 @@ public class Main {
 
         String text = scanner.nextLine();
 
-        if (text.length() > 100) {
-            System.out.println("HARD");
-        } else {
-            System.out.println("EASY");
-        }
+        Score scoreCalculator = new Score();
+        scoreCalculator.setCalculator(new SentenceAverageCalculator(10));
+
+        Level result = scoreCalculator.calculate(text);
+
+        System.out.println(result.name());
     }
 }
