@@ -1,6 +1,6 @@
 package readability.score;
 
-public class StringLengthCalculator implements ScoreCalculator {
+public class StringLengthCalculator extends ScoreCalculator {
 
     final private int limit;
 
@@ -8,11 +8,15 @@ public class StringLengthCalculator implements ScoreCalculator {
         this.limit = limit;
     }
 
-    public Level calculate(String text) {
+    @Override
+    public Statistics calculate(String text) {
+        Statistics statistics = new Statistics();
         if (text.length() > limit) {
-            return Level.HARD;
+            statistics.level = Level.HARD;
+        } else {
+            statistics.level = Level.EASY;
         }
 
-        return Level.EASY;
+        return statistics;
     }
 }

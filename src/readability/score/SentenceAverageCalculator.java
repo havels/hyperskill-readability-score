@@ -1,6 +1,6 @@
 package readability.score;
 
-public class SentenceAverageCalculator implements ScoreCalculator {
+public class SentenceAverageCalculator extends ScoreCalculator {
 
     final private int limit;
 
@@ -8,18 +8,9 @@ public class SentenceAverageCalculator implements ScoreCalculator {
         this.limit = limit;
     }
 
-    private String[] splitSentences(String text) {
-        return text.split("[\\.\\?\\!]+\\s*");
-    }
-
-    private int getWordsCount(String sentence) {
-        String[] words = sentence.split("\\W+");
-
-        return words.length;
-    }
-
-
-    public Level calculate(String text) {
+    @Override
+    public Statistics calculate(String text) {
+        Statistics statistics = new Statistics();
         String[] sentences = splitSentences(text);
 
         double sum = 0;
@@ -31,9 +22,11 @@ public class SentenceAverageCalculator implements ScoreCalculator {
         double average = sum / sentences.length;
 
         if (average > limit) {
-            return Level.HARD;
+            statistics.level = Level.HARD;
+        } else {
+            statistics.level = Level.EASY;
         }
 
-        return Level.EASY;
+        return statistics;
     }
 }
